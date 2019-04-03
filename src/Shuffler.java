@@ -9,7 +9,7 @@ public class Shuffler {
 	 * The number of consecutive shuffle steps to be performed in each call
 	 * to each sorting procedure.
 	 */
-	private static final int SHUFFLE_COUNT = 4;
+	private static final int SHUFFLE_COUNT = 10;
 
 
 	/**
@@ -19,7 +19,7 @@ public class Shuffler {
 	public static void main(String[] args) {
 		System.out.println("Results of " + SHUFFLE_COUNT +
 								 " consecutive perfect shuffles:");
-		int[] values1 = {0, 1, 2, 3};
+		int[] values1 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		for (int j = 1; j <= SHUFFLE_COUNT; j++) {
 			perfectShuffle(values1);
 			System.out.print("  " + j + ":");
@@ -32,7 +32,7 @@ public class Shuffler {
 
 		System.out.println("Results of " + SHUFFLE_COUNT +
 								 " consecutive efficient selection shuffles:");
-		int[] values2 = {0, 1, 2, 3};
+		int[] values2 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		for (int j = 1; j <= SHUFFLE_COUNT; j++) {
 			selectionShuffle(values2);
 			System.out.print("  " + j + ":");
@@ -83,25 +83,33 @@ public class Shuffler {
 	 * @param values is an array of integers simulating cards to be shuffled.
 	 */
 	public static void selectionShuffle(int[] values) {
-		int[] shuffled = new int[values.length];
-		int j = (int) (Math.random()*values.length);
 
-		for (int i = 0; i < shuffled.length; i++) {
-			shuffled[i] = -1;
+		for (int i = values.length - 1; i > 0; i--) {
+			int r = (int)(Math.random() * i);
+			int temp = values[i];
+			values[i] = values[r];
+			values[r] = temp;
 		}
 
-		for (int i = 0; i < values.length; i++) {
-			while (shuffled[j] >= 0) {
-				j = (int) (Math.random() * values.length);
-			}
+		// int[] shuffled = new int[values.length];
+		// int j = (int) (Math.random()*values.length);
 
-			shuffled[j] = values[i];
-		}
+		// for (int i = 0; i < shuffled.length; i++) {
+		// 	shuffled[i] = -1;
+		// }
 
-		for (int i = 0; i < values.length; i++) {
-			values[i] = shuffled[i];
-		}
-	}
+		// for (int i = 0; i < values.length; i++) {
+		// 	while (shuffled[j] >= 0) {
+		// 		j = (int) (Math.random() * values.length);
+		// 	}
 
-	
+		// 	shuffled[j] = values[i];
+		// }
+
+		// for (int i = 0; i < values.length; i++) {
+		// 	values[i] = shuffled[i];
+		// }
+	}	
+
+
 }
