@@ -1,0 +1,3 @@
+1. All have a board with a certain number of cards on it, all select cards based on a rule and replaces them, dealing more cards to the board to replace the old ones.
+2. Constructor.
+3. abstract anotherPlayIsPossible(), abstract isLegal(). They do cover the differences because isLegal() checks the rules of the cards to replace them, and anotherPlayIsPossible() checks the specific rules to see if the game can be continued.
