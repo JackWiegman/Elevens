@@ -53,10 +53,7 @@ public class ElevensBoard extends Board {
 	 */
 	@Override
 	public boolean isLegal(List<Integer> selectedCards) {
-		if (containsPairSum11(selectedCards) || containsJQK(selectedCards)) {
-			return true;
-		}
-		return false;
+		return containsPairSum11(selectedCards) || containsJQK(selectedCards);
 		
 	}
 
@@ -70,7 +67,20 @@ public class ElevensBoard extends Board {
 	 */
 	@Override
 	public boolean anotherPlayIsPossible() {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		List<Integer> cIndexes = cardIndexes();
+		for (int i = 0; i < cIndexes.size(); i++) {
+			for (int j = 0; j < cIndexes.size(); j++) {
+				if (i != j) {
+					ArrayList<Integer> check = new ArrayList<Integer>(2);
+					check.add(i);
+					check.add(j);
+					if (containsPairSum11(check)) return true;
+				}
+			}
+		}
+		
+		if (containsJQK(cIndexes)) return true;
+		return false;
 	}
 
 	/**
@@ -83,13 +93,10 @@ public class ElevensBoard extends Board {
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		int sum = 0;
-		for (int i = 0; i < selectedCards.length(); i++) {
-			sum += selectedCards.get(i).pointValue();
-		}
-		if (sum == 11) {
-			return true;
-		}
-		return false;
+		if (selectedCards.size() != 2) return false;
+
+		return (cardAt(selectedCards.get(0)).pointValue() 
+				+ cardAt(selectedCards.get(1)).pointValue()) == 11;
 	}
 
 	/**
@@ -101,13 +108,15 @@ public class ElevensBoard extends Board {
 	 *              include a jack, a queen, and a king; false otherwise.
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
-		int sum = 0;
-		for (int i = 0; i < selectedCards.length(); i++) {
-			sum += selectedCards.get(i).pointValue();
+		boolean jack = false, queen = false, king = false;
+		for (Integer i : selectedCards) {
+			int k = i.intValue();
+			
+			if (cardAt(k).rank().equals("jack")) {jack = true;}
+			else if (cardAt(k).rank().equals("queen")) {queen = true;}
+			else if (cardAt(k).rank().equals("king")) {king = true;}
 		}
-		if (sum == 0) {
-			return true;
-		}
-		return false;
+
+		return jack && queen && king;
 	}
 }
